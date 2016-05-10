@@ -1,0 +1,9 @@
+﻿- nutzen können wir: numpy arrays, scikit-learn
+- möglicher Algorithmus: Naive Bayes, Decision Tree, Neuronale Netze, (instance based learning)
+
+- alle null-Werte löschen
+- Wertebereich von x,y,z von Gyrometer und Accelerometer bestimmen (Was sind zulässige Werte)
+--> if unzulässige Werte -> Zeile löschen
+- werte von gyro und accelerometer nach id matchen
+- Input Repräsentation: vector mit 6 inputs, zusätzlich von Zeile x bis y: Kommentieren der Klasse 
+- Problem: python soll Sensordaten nicht jedes Mal erneut einlesen

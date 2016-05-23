@@ -1,0 +1,21 @@
+init
+start parsing accelerator data
+Iteration End
+accMinX: -38.812073
+accMaxX: 27.92894
+accMinY: -22.495117
+accMaxY: 20.808151000000002
+accMinZ: -13.423874
+accMaxZ: 39.31801
+number of lines(acc): 13062475
+end parsing accelerator data
+start parsing gyroscope data
+Iteration End
+gyrMinX: -4.128174
+gyrMaxX: 9.088683999999999
+gyrMinY: -7.9920254
+gyrMaxY: 14.347641000000001
+gyrMinZ: -5.2783812999999995
+gyrMaxZ: 5.9360127
+number of lines(gyr): 13932632
+end parsing gyroscope data

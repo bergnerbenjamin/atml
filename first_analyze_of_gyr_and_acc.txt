@@ -19,3 +19,24 @@ gyrMinZ: -5.2783812999999995
 gyrMaxZ: 5.9360127
 number of lines(gyr): 13932632
 end parsing gyroscope data
+
+
+
+Count the number of labels:
+Result:
+{'bike': 0, 'sit': 1, 'stand': 2, 'walk': 3, 'stairsup': 4, 'stairsdown': 5, 'null': 6}
+Acc:
+[1845557 1991919 1851492 2192401 1782010 1615896 1783200]
+Gyr:
+[1911730 2218501 2024206 2350429 1884306 1673833 1869627]
+Pruned Data:
+[ 642359 1045441 1028693 1209014  794195  724142       0]
+
+=> roughly all labels have same occurance (~2 million)
+=> amount of labels of specific label differs in the data set
+=> summed up number of valid labels: 13062475 in acc, 13932632 in gyr, 5443844 in pruned data
+=> loss of data due to missing, wrong or invalid values ('null'-labeled taken out):
+	1-5443844/(13062475-1783200) ~= 51%
+=> more variance in pruned dataset
+	relative occurance of labels in pruned dataset: [0.11 0.19 0.18 0.21 0.14 0.14 0]
+=> NOTE: raw gyr and acc data was analyzed, not parsable labels were skipped

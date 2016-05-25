@@ -4,13 +4,16 @@ Created on 08.05.2016
 @author: freddy
 '''
 
-from dataModel2 import dataModel2
+from DataPruner import DataPruner
 
 #main file, the interpreter should start here
 
 #read in and construct the data model
-model = dataModel2()
-
+model = DataPruner()
+#model.countLabelClasses()
+#model.check_data()
+#model.dataPruning()
+#model.countPrunedLabelClasses()
 # TODO: classifiers
    
     

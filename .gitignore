@@ -94,3 +94,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+sperated_data/pruned_data_label_0.csv
+sperated_data/pruned_data_label_1.csv
+sperated_data/pruned_data_label_2.csv
+sperated_data/pruned_data_label_3.csv
+sperated_data/pruned_data_label_4.csv
+sperated_data/pruned_data_label_5.csv

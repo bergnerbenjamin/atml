@@ -23,7 +23,7 @@ class DataPruner:
     # the device name mapping to numbers
     #device_mapping_dict = {'nexus4_1' : 0, 'nexus4_2' : 1, 's3_1' : 2, 's3_2' : 3, 's3mini_1' : 4, 's3mini_2' : 5, 'samsungold_1' : 6, 'samsungold_2' : 7}
     
-    #default constructor, creates the feature vector
+    #default constructor
     def __init__(self):
         print("init")
         
@@ -157,7 +157,7 @@ class DataPruner:
                 lineNumber += 1
                 # write parsed valid data into pruned data set
                 writer.writerow({"aX": aX, "aY": aY, "aZ": aZ, "gX": gX, "gY": gY, "gZ": gZ, "label": self.class_mapping_dict[accRow[9]]})
-                print(lineNumber)
+                #print(lineNumber)
                 
             except csv.Error:
                 print("csv error")

@@ -6,22 +6,18 @@ Created on 03.06.2016
 
 import numpy
 
-'''
-# example of how to use the eval class:
-        
-groundtruth      = numpy.array([0,1,2,3,4,5,3,4,3,2,3,4,2,3,4,1,2,3,4,5,3,4,3,2,3,4,2,3,2,4])
-estimated_values = numpy.array([0,1,2,3,4,5,3,4,3,2,3,4,2,3,4,3,2,2,3,4,5,3,4,3,2,3,4,2,3,4])
 
-# create eval instance
-test_eval = eval(groundtruth, estimated_values)
-
-#print all generated data
-test_eval.print_eval()
-
-'''
-
-class eval:
+class evaluation:
+    '''
+    Different quality measures for a class assignment were implemented in this class. At
+    the end of this file a short working example of how to use this class is given. For
+    evaluation reasons, the confusion matrix and the quality value accuracy are the most interesting values.
+    The confusion matrix gives you an overview over the result, and accuracy is the most considered quality 
+    value for classificators.
     
+    further information can be found here (implementation is based on this site):
+    https://en.wikipedia.org/wiki/Sensitivity_and_specificity
+    '''
     numberOfInstances = -1
     numberOfClasses   = 6
     
@@ -39,6 +35,9 @@ class eval:
     overall_fn = -1
     
     def __init__(self, _groundtruth, _estimatedValues):
+        '''
+        default and only constructor
+        '''
         self.groundtruth = _groundtruth
         self.estimated_values = _estimatedValues
         
@@ -49,7 +48,10 @@ class eval:
         
         
     def create_confusion_matrix(self):
-        
+        '''
+        creates the confusion matrix. The rows show the groundtruth values and the columns
+        the predicted ones from the classificator.
+        '''
         for i in range(self.numberOfInstances):
             
             index_groundtruth = self.groundtruth[i]
@@ -68,7 +70,10 @@ class eval:
                 self.overallNmberOfFalseClassifiedObjects += 1
             
     def create_tp_tn_fp_fn_from_confusion_matrix(self):
-                
+        '''
+        create true positives, true negatives, false positives and false negatives over all classes.
+        Due to the fact that it is no 2x2 confusion matrix, it is normal that tp = tn and fp = fn
+        '''     
         self.overall_tp = 0
         self.overall_tn = 0
         self.overall_fp = 0
@@ -87,7 +92,9 @@ class eval:
             self.overall_fn += self.conf_matrix[i][self.numberOfClasses] - self.conf_matrix[i][i]
 
     def print_eval(self):
-        
+        '''
+        print all information which was computed by this class. calls all _print_XXX methods
+        '''
         self._print_general_values()
         self._print_four_values()
         self._print_quality_values(self.overall_tp, self.overall_tn, self.overall_fp, self.overall_fn)
@@ -165,3 +172,16 @@ class eval:
         print('false negatives: ' + str(self.overall_fn))
         
         print('\n')
+
+'''
+# example of how to use the evaluation class (just comment in and run this file):
+        
+groundtruth      = numpy.array([0,1,2,3,4,5,3,4,3,2,3,4,2,3,4,1,2,3,4,5,3,4,3,2,3,4,2,3,2,4])
+estimated_values = numpy.array([0,1,2,3,4,5,3,4,3,2,3,4,2,3,4,3,2,2,3,4,5,3,4,3,2,3,4,2,3,4])
+
+# create evaluation instance
+test_eval = evaluation(groundtruth, estimated_values)
+
+#print all generated data
+test_eval.print_eval()
+'''

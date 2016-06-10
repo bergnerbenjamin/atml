@@ -173,6 +173,10 @@ class evaluation:
         
         print('\n')
 
+    def print_only_accuracy(self):
+        accuracy    = (self.overall_tp + self.overall_tn) / (self.overall_tp + self.overall_fp + self.overall_fn + self.overall_tn)
+        print(str(accuracy))
+
 '''
 # example of how to use the evaluation class (just comment in and run this file):
         

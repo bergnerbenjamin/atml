@@ -96,7 +96,20 @@ print("y: ", y)
 model = GaussianNB()
 
 # Train the model using the training sets 
-model.fit(x, y.ravel())
+# use online learning
+j = 0
+while True:
+	if j == 0:
+		model.partial_fit(x[j:j+10], y[j:j+10], y)
+	else:
+		try:
+			model.partial_fit(x[j:j+10], y[j:j+10])
+		except:
+			break
+	j += 10
+
+# use batch learning
+#model.fit(x, y.ravel())
 
 #Predict Output 
 #predicted= model.predict([[-4.9667664, -1.8327484, 10.064636, -0.10971069, 0.048919678, 0.16738892]])

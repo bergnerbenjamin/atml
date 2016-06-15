@@ -18,34 +18,28 @@ class evaluation:
     further information can be found here (implementation is based on this site):
     https://en.wikipedia.org/wiki/Sensitivity_and_specificity
     '''
-    numberOfInstances = -1
-    numberOfClasses   = 6
-    
-    groundtruth       = numpy.array(int)
-    estimated_values  = numpy.array(int)
-    
-    conf_matrix       = numpy.zeros((numberOfClasses + 1, numberOfClasses + 1), int)
-    
-    overallNmberOfTrueClassifiedObjects  = 0
-    overallNmberOfFalseClassifiedObjects = 0
-    
-    overall_tp = -1
-    overall_tn = -1
-    overall_fp = -1
-    overall_fn = -1
     
     def __init__(self, _groundtruth, _estimatedValues):
         '''
         default and only constructor
         '''
+        self.groundtruth       = numpy.array(int)
+        self.estimated_values  = numpy.array(int)
         self.groundtruth = _groundtruth
         self.estimated_values = _estimatedValues
+
+        self.overallNmberOfTrueClassifiedObjects = 0
+        self.overallNmberOfFalseClassifiedObjects = 0
+        self.overall_fn = 0
+        self.overall_fp = 0
+        self.overall_tn = 0
+        self.overall_tp = 0
         
         self.numberOfInstances = len(self.groundtruth)
-        
+        self.numberOfClasses = 6
+        self.conf_matrix       = numpy.zeros((self.numberOfClasses + 1,self.numberOfClasses + 1), int)
         self.create_confusion_matrix()
         self.create_tp_tn_fp_fn_from_confusion_matrix()
-        
         
     def create_confusion_matrix(self):
         '''

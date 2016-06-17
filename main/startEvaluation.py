@@ -170,7 +170,21 @@ class evaluation:
     def print_only_accuracy(self):
         accuracy    = (self.overall_tp + self.overall_tn) / (self.overall_tp + self.overall_fp + self.overall_fn + self.overall_tn)
         print(str(accuracy))
+        return accuracy
 
+    def get_accuracy(self):
+        '''
+        retruns just the generated accuracy as double
+        '''
+        accuracy    = (self.overall_tp + self.overall_tn) / (self.overall_tp + self.overall_fp + self.overall_fn + self.overall_tn)
+        return accuracy
+    
+    def get_conf_matrix(self):
+        '''
+        Returns the confusion matrix
+        '''
+        return self.conf_matrix
+    
 '''
 # example of how to use the evaluation class (just comment in and run this file):
         

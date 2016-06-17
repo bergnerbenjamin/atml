@@ -17,26 +17,29 @@ def onlineNaiveBayes(batch_size):
 def offlineNaiveBayes():
 	model.fit(x, y.ravel())
 
-training_range = 9
-test_index = 9
+cross_validation_runs = 1
 batch_size = 100
 
-instances = get_training_set(training_range)	
-x = instances[0]
-y = instances[1]
+training_eval_index = get_cross_validation_file_indices(cross_validation_runs)
 
-model = GaussianNB()
-onlineNaiveBayes(batch_size)
-#offlineNaiveBayes()
+#mean_accuracy = 0
+for i in range(cross_validation_runs):
+	training_eval_instances = get_training_eval_set(training_eval_index[i])
+	training_instances = training_eval_instances[0]
+	x = training_instances[0]
+	y = training_instances[1]
 
-DATAPATH = "../sub_datasets/subset_9.csv"
-eval_instances = get_instances_from_csv(DATAPATH, "all", False)
-eval_x = eval_instances[0]
-eval_y = eval_instances[1]
+	model = GaussianNB()
+	#onlineNaiveBayes(batch_size)
+	offlineNaiveBayes()
 
-predicted = model.predict(eval_x)
-print("predicted_real: ", predicted[0:50])
-print("groundtruth: ", eval_y[0:50].ravel())
-
-test_eval = evaluation(eval_y.ravel(), predicted)
-test_eval.print_eval()
+	eval_instances = training_eval_instances[1]
+	eval_x = eval_instances[0]
+	eval_y = eval_instances[1]
+	predicted = model.predict(eval_x)
+	print("predicted_real: ", predicted[0:50])
+	print("groundtruth: ", eval_y[0:50].ravel())
+	
+	test_eval = evaluation(eval_y.ravel(), predicted)
+	test_eval.print_eval()
+#mean_accuracy /= cross_validation_runs

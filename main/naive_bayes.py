@@ -17,12 +17,12 @@ def onlineNaiveBayes(batch_size):
 def offlineNaiveBayes():
 	model.fit(x, y.ravel())
 
-cross_validation_runs = 1
+cross_validation_runs = 10
 batch_size = 100
 
 training_eval_index = get_cross_validation_file_indices(cross_validation_runs)
 
-#mean_accuracy = 0
+mean_accuracy = 0
 for i in range(cross_validation_runs):
 	training_eval_instances = get_training_eval_set(training_eval_index[i])
 	training_instances = training_eval_instances[0]
@@ -42,4 +42,6 @@ for i in range(cross_validation_runs):
 	
 	test_eval = evaluation(eval_y.ravel(), predicted)
 	test_eval.print_eval()
-#mean_accuracy /= cross_validation_runs
+	mean_accuracy += test_eval.get_accuracy()
+mean_accuracy /= cross_validation_runs
+print("mean_accuracy: ", mean_accuracy)

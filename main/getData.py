@@ -41,7 +41,9 @@ def get_instances_from_csv(datapath, train_or_eval, fixed, silent=False):
     features = np.zeros(6)
     class_labels = np.zeros(1)
     
-    df=pd.read_csv(datapath, sep=',',header=None)
+    df=pd.read_csv(datapath, sep=',',header=None)[1:]
+    df = df.sample(frac=1).reset_index(drop=True)
+
     if train_or_eval == "train":
         features = df.values[1:500000, 0:6]
         class_labels = df.values[1:500000, 6]

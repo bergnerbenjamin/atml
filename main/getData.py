@@ -2,20 +2,36 @@ import numpy as np
 import pandas as pd
 import csv
 
-def get_training_set(training_range, silent=False):
-    """
-    Input: Number of files for training set
-    Output: all training instances
-    """
-    instances = [np.array([], dtype=np.float32), np.array([], dtype=np.float32)]
-    for i in range(training_range):
-        DATAPATH = "../sub_datasets/subset_"+str(i)+".csv"
-        file_instances = get_instances_from_csv(DATAPATH, "all", False, silent=silent)    
-        if instances[0].size == 0 and instances[1].size == 0:
-            instances = file_instances
-        else:
-            instances = [np.vstack((instances[0], file_instances[0])), np.append(instances[1], file_instances[1])]
-    return instances
+def get_cross_validation_file_indices(cross_validation_runs):
+	init = [e for e in range(10)]
+	training_eval = []
+	for i in range(cross_validation_runs):
+		init_temp = init[:]
+		eval = init_temp[i]
+		del init_temp[i]
+		training = init_temp
+		training_eval.append([training, eval])
+	print("training_eval: ", training_eval)
+	return training_eval
+	
+def get_training_eval_set(training_eval_index):
+	"""
+	Input: Number of files for training set
+	Output: all training instances
+	"""
+	instances = [np.array([], dtype=np.float32), np.array([], dtype=np.float32)]
+	for i in training_eval_index[0]:
+		DATAPATH = "../sub_datasets/subset_"+str(i)+".csv"
+		file_instances = get_instances_from_csv(DATAPATH, "all", False)	
+		if instances[0].size == 0 and instances[1].size == 0:
+			instances_train = file_instances
+		else:
+			instances_train = [np.vstack((instances[0], file_instances[0])), np.append(instances[1], file_instances[1])]
+	
+	DATAPATH = "../sub_datasets/subset_"+str(training_eval_index[1])+".csv"
+	instances_eval = get_instances_from_csv(DATAPATH, "all", False)
+	
+	return [instances_train, instances_eval]
 
 def get_instances_from_csv(datapath, train_or_eval, fixed, silent=False):
     """

@@ -33,29 +33,27 @@ def get_training_eval_set(training_eval_index, silent=False):
     
     return [instances_train, instances_eval]
 
-def get_instances_from_csv(datapath, train_or_eval, fixed, silent=False):
-    """
-    Input: datapath: datapath to be read from
-    Output: list with first element np array with features, second element np array with respective class labels
-    """
-    features = np.zeros(6)
-    class_labels = np.zeros(1)
-    
-    df=pd.read_csv(datapath, sep=',',header=None)[1:]
-    df = df.sample(frac=1).reset_index(drop=True)
-
-    if train_or_eval == "train":
-        features = df.values[1:500000, 0:6]
-        class_labels = df.values[1:500000, 6]
-    elif train_or_eval == "eval":
-        features = df.values[500000:, 0:6]
-        class_labels = df.values[500000:, 6]
-    else:
-        features = df.values[1:, 0:6]
-        class_labels = df.values[1:, 6]
-    
-    if not silent:
-        print("features: ", features)
-        print("class_labels: ", class_labels)
-    
-    return [features.astype(np.float), class_labels.astype(np.int)]
+def get_instances_from_csv(datapath, train_or_eval, fixed):
+	"""
+	Input: datapath: datapath to be read from
+	Output: list with first element np array with features, second element np array with respective class labels
+	"""
+	features = np.zeros(6)
+	class_labels = np.zeros(1)
+	
+	df = pd.read_csv(datapath, sep=',',header=None)[1:]
+	df = df.sample(frac=1).reset_index(drop=True)
+	if train_or_eval == "train":
+		features = df.values[1:500000, 0:6]
+		class_labels = df.values[1:500000, 6]
+	elif train_or_eval == "eval":
+		features = df.values[500000:, 0:6]
+		class_labels = df.values[500000:, 6]
+	else:
+		features = df.values[1:, 0:6]
+		class_labels = df.values[1:, 6]
+	
+	print("features: ", features)
+	print("class_labels: ", class_labels)
+	
+	return [features.astype(np.float), class_labels.astype(np.int)]

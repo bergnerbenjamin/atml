@@ -1,0 +1,44 @@
+Documentation:
+
+Environment used: Python 3 in general; numpy, pandas, sklearn as modules
+numpy is for convenient and fast vector/matrix handling of data
+pandas for processing csv files
+sklearn enables us to fastly implement machine learning algorithms
+
+IPython Notebooks are used for presenting Code/Documentation/Presentation
+
+1. Analyse the data set and the attributes:
+
+We selected accelerometer and gyrometer for x,y and z coordinates because these are the most important informationen to determine whether somebody moves, sits, etc.
+We did not use:  * the timestamp, because it does not represent the application properties and uses a new value for every instance
+side information * the user because the classificatin should work for all users, irrespective of how the runs/walks,sits,...
+                 * we did not use the information about the smartphone because we want to achieve a high generalization for all
+
+6. We used four different machine learning methods and present the results in the following. First, we tried naive bayes. The mean accuracy after running cross validation is: 
+
+mean_accuracy:  0.46783015461
+
+We guess that the accuracy is so low because of the underlying independence assumption. This is not true as they are directly correlated to each other (redundancy of features).
+When sitting e.g., the accelerometer won't change it's values ignoring jitter. This also holds for the gyrometer. Another assumption that has been made but must not be true,
+is to think that the data is normal distributed. The result for online naive bayes is equal because it does not make a difference when and in which order to read in data.
+
+Below the summarized confusion matrix for the 10 fold crossvalidation is depicted
+
+			 bike      sit    stand    walk   stairsup stairsdown
+bike       [ 174117   55085  128905  210417   51632   22203  642359]
+sit        [  25166  692781  283821     210    5132   38331 1045441]
+stand      [  24505   74559  896433   24017    5969    3210 1028693]
+walk       [  70019  191574  237291  514705  121561   73864 1209014]
+stairsup   [  41800   64164  150102  313976  165688   58465  794195]
+stairsdown [  50803   77630  115822  275309  101505  103073  724142]
+		   [ 386410 1155793 1812374 1338634  451487  299146 5443844]
+
+When biking, naive bayes thinks mostly that you walk. Sitting and standing is recognized quite well but there is still some confusion between these two classes. When one goes up or
+down the stairs, mostly walking will be recognized again.
+
+Looking at k-Nearest-Neighbours, the accuracy improves but it seems not worth to go beyond three neigbours as the accuracy won't improve significantly:
+
+3-NN mean_accuracy:  0.690442637993
+5-NN mean_accuracy:  0.699013810978
+
+Most probably, the accuracy increased because of clusters that build. Sitting and standing is well seperated and classified correctly most of the times. The nice seperation is working because they are very different from all other classes as sitting will not change the sensor data (nearly constant) while standing will cause slight movements + jitter. Because walking and biking have more similar vectors they have a lot of false positives/negatives. More drastic is that stairsup and down seem to be very similar to their counterpart and especially walking. Giving this general setting, kNN should only be considered differentiating less similar classes like e.g. sit + stand + walk|bike

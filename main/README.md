@@ -5,7 +5,7 @@ Python 3 in general; numpy, pandas, sklearn as modules
 * pandas for processing csv files
 * sklearn enables us to quickly implement machine learning algorithms
 
-IPython Notebooks are used for presenting Code/Documentation/Presentation
+IPython Notebooks are used for presenting Code/Documentation
 * ```Benchmark Final Decision Tree.ipynb``` for crossvalidation with Decision Trees
 * ```Benchmark Final SVM.ipynb``` for crossvalidation with SVMs
 * ```Decision Tree.ipynb``` on how the parameters are found for the decision trees

@@ -111,11 +111,11 @@ Each subset for cross-validation should now reflect the label amount proportion 
 
 ## Quality Measures
 
-The overall task is a classification problem with six distinct classes. To compare our algorithms we use some quality measures which will be described in this chapter.
+The overall task is a classification problem with six distinct classes. To compare our algorithms we use two quality measures which will be described in this chapter.
 
 ### Accuracy
 
-The accuracy is a common quality measure for classification problems. It is the number of right classified instances divided by the overall number of instances. This was our main quality measure for the comparison.
+The accuracy is a common quality measure for classification problems. It is the number of correctly classified instances divided by the overall number of instances. This was our main quality measure for the comparison.
 
 ### Confusion Matrix
 

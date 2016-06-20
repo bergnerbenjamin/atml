@@ -6,6 +6,12 @@ Python 3 in general; numpy, pandas, sklearn as modules
 * sklearn enables us to quickly implement machine learning algorithms
 
 IPython Notebooks are used for presenting Code/Documentation/Presentation
+* ```Benchmark Final Decision Tree.ipynb``` for crossvalidation with Decision Trees
+* ```Benchmark Final SVM.ipynb``` for crossvalidation with SVMs
+* ```Decision Tree.ipynb``` on how the parameters are found for the decision trees
+* ```SVM training.ipynb``` on how the parameters are found for SVMs
+* ```kNN_naive_bayes.ipynb``` for crossvalidation with kNN and naive bayes
+
 
 # Analyse the data set and the attributes:
 

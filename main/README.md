@@ -89,7 +89,7 @@ Do while rows exist:
         a. Read in the x,y,z values of the accelerometer as aX,aY,aZ and x,y,z values of gyroscope as gX,gY,gZ and write it with the corresponding label (gt) into the merged data set.
         b. Go to 1.
 ```
-Data entries with label (gt) null will be ignored.
+Data entries without label (gt == null) will be ignored.
 
 # Convert data into a format useable for machine learning algorithms
 

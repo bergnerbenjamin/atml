@@ -137,13 +137,14 @@ Using a small number of training samples also means, that 'good' training sample
 
 Another advantage is that SVMs cannot be trained online, but the model needs to be learned in advance.
 ```
-bike       [ 38975  2013    5325    12809   3748   1656    64526  
-sit        [ 310    103757  70         43      60       13    104253  
-stand      [ 979    344     101185    432     307     168    103415  
-walk       [ 11981  1344    5483    82608   12780  6374    120570  
-stairsup   [ 7786   610     3874    30364   30097  6939    79670  
-stairsdown [ 7121   511     3235    33245   12728  15785   72625  
-all        [ 67152  108579  119172  159501  59720  30935   545059  
+              bike     sit stand   walk  s-up s-down     all
+bike       [ 38975   2013   5325  12809  3748    165    64526 ]
+sit        [   310 103757     70     43    60     13   104253 ]
+stand      [   979    344 101185    432   307    168   103415 ]
+walk       [ 11981   1344   5483  82608 12780   6374   120570 ]
+stairsup   [  7786    610   3874  30364 30097   6939    79670 ]
+stairsdown [  7121    511   3235  33245 12728  15785    72625 ]
+all        [ 67152 108579 119172 159501 59720  30935   545059 ]
 
 mean_accuracy:  0.683425751842
 ```
@@ -155,6 +156,19 @@ This is pretty similar to how a decision tree would work like, so we decided to 
 However the model learned by the decision tree may not be a good generalisation of the underlying association of the attributes. Especially the 'perfect' decision tree that has no error on the training data performs poorly when classifying real data. By generating a tree that aggregates a number of training examples in each node before splitting it and limiting the minimal number of samples in the leaf nodes overfitting can be counteracted and the accuracy is quite good.
 
 In the implementation of decision trees we use, the model is fitted in advance of classification. However there are also online learning approaches for decision trees. One of those approaches is to save the data items in the leaf node of the tree and to split the nodes as soon as a certain threshold is reached. In contrast to offline learning with this approach it is even harder to find the optimal feature split, as less data items are available to decide on how to split the node.
+
+```
+              bike     sit stand   walk  s-up s-down    all 
+bike       [ 42524    640   1930  10656   5048  3728  64526 ]
+sit        [   435 103193     77    288    209    51 104253 ]
+stand      [  1195    145 100042   1202    550   281 103415 ]
+walk       [ 11670    585   2526  74764  17329 13696 120570 ]
+stairsup   [  7927    342   1669  25020  33142 11571  79671 ]
+stairsdown [  7530    305   1530  25715  15368 22176  72624 ]
+all        [ 71281 105210 107774 137645  71646 51503 545059 ]
+
+mean_accuracy:  0.688988539889
+```
 
 ## Naive Bayes
 We used four different machine learning methods and present the results in the following. First, we tried naive bayes. The mean accuracy after running cross validation is: 

@@ -76,7 +76,7 @@ Also the amount of specific labeled data entries differs in the two data sets, a
 
 The implemented strategy is:
 Go through all data entries (rows) in both data sets, accelerometer and gyroscope.
-
+```
 Do while rows exist:
     1. Find the next matching Index entries:
         a. Load next parseable and valid rows accelerometer and gyroscope.
@@ -89,7 +89,7 @@ Do while rows exist:
     2. Matching rows found:
         a. Read in the x,y,z values of the accelerometer as aX,aY,aZ and x,y,z values of gyroscope as gX,gY,gZ and write it with the corresponding label (gt) into the merged data set.
         b. Go to 1.
-
+```
 Data entries with label (gt) null will be ignored.
 
 # Convert data into a format useable for machine learning algorithms

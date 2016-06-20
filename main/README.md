@@ -131,7 +131,7 @@ We introduce an additional row (N+1) and column (N+1), in which the correspondin
 
 ## SVM learning ('rbf' - Kernel)
 
-The SVM learning approach is pretty generic, if 'only' you had the right kernel almost every problem may be solved with a svm. In our case it was mostly curiosity of how svms would perform, given some of the default kernels.
+The SVM learning approach is pretty generic, if 'only' you had the right kernel almost every problem may be solved with a SVM. In our case it was mostly curiosity of how SVMs would perform, given some of the default kernels.
 The Kernel that outperformed others by far is the 'rbf' kernel, which operates on the distance of the vectors. The kernel is one of the go-to kernels for machine learning problems that often performs well. However we have not searched for a kernel that can exploit specific knowledge.
 
 A problem that came up is that (at least in this implementation) training the SVM and also using it to classify new instances takes a lot of time. By limiting the maximum number of iterations computations can be made in a feasible time, but the SVM does not converge fast enough if to many training samples are provided. Especially as the classification should quite probably run on a mobile phone this is a big disadvantage of the approach.

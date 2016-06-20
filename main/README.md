@@ -199,6 +199,8 @@ all        [ 814911 1061026 1092460 1406095  597530  471812 5443834]
 
 # Comparison
 
+Excluding naive bayes, all of the used methods have nearly the same accuracy. Also the classification errors are similar. In general, sitting and standing are well seperable while movement classes (biking, walking, stairsup/stairsdown) share sensor patterns that lead to misclassifications.
+
 Comparing SVM and kNN is also interesting, as the RBF kernel works distance based and is able to recognize clusters. This may explain why SVM and kNN achieve similar results and also why the rbf-kernel seems appropriate to classify the data.
 
 # Future Work

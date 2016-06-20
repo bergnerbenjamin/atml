@@ -205,6 +205,7 @@ Looking at k-Nearest-Neighbours, the accuracy improves but it seems not worth to
 Most probably, the accuracy increased because of clusters that build. Sitting and standing is well separated and classified correctly most of the times. The nice separation is working because they are very different from all other classes as sitting will not change the sensor data (nearly constant) while standing will cause slight movements + jitter. Because walking and biking have more similar vectors they have a lot of false positives/negatives. More drastic is that stairsup and down seem to be very similar to their counterpart and especially walking. Giving this general setting, kNN should only be considered differentiating less similar classes like e.g. sit + stand + walk|bike
 
 
+```
                bike     sit    stand   walk    s-up   s-down    all
 bike       [ 443651    6098   21499  102999   37575   30536  642358]
 sit        [   1378 1040850     792    1547     619     253 1045439]
@@ -213,6 +214,7 @@ walk       [ 156727    6524   27178  754470  139315  124798 1209012]
 stairsup   [ 104552    3895   19061  268989  298120   99577  794194]
 stairsdown [  99558    2606   16898  271332  119209  214536  724139]
 all        [ 814911 1061026 1092460 1406095  597530  471812 5443834]
+```
 
 # Comparison
 

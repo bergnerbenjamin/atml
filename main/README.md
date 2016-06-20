@@ -12,19 +12,18 @@ IPython Notebooks are used for presenting Code/Documentation/Presentation
 We selected accelerometer and gyrometer for x,y and z coordinates because these are the most important information to determine whether somebody moves, sits, etc.
 We did not use:  
 * the timestamp, because it does not represent the application properties and uses a new value for every instance
-side information 
 * the user field because the classification should work for all users, irrespective of how the individual user runs, walks, sits,...
 * we did not use the information about the smartphone because we want to achieve a high generalization for all
 
 # Approach
 
-Our approach is based on several different algorithms. We were very unfamiliar with the proposed data, to achieve good results anyway we decide to implement four algorithms instead of two. A short description of them is given in the following. Also their abilities to be used as on online or offline variant are mentioned.
+Our approach is based on several different algorithms. We were not familiar with the underlying model, to achieve good results, we decided to use four algorithms. A short description of them is given in the following. Also their abilities to be used as an online or offline variant are mentioned.
 
 ## K-Nearest Neighbour Algorithm (KNN)
 
 A very simple classifier, which is based on the k-nearest neighbours of a data point. When a new data point should be classified, all its labeled k nearest neighbours are taken into account. The data point is assigned to the class to which most of its k nearest neighbours are assigned.
 
-The algorithm can be used as online of offline variant. There are no differences between those variants, the result is the same in both cases.
+The algorithm can be used as online or offline variant. There are no differences between those variants, the result is the same in both cases.
 
 ## Support-Vector-Machine SVM
 
@@ -34,9 +33,9 @@ SVMs have several different parameters which have to be adapted to achieve a goo
 
 ## Decision Trees
 
-Decision Trees are a classification method which is based on trees from the field of graph theory. Every node distinguishes the dataset into different subsets. Leaf nodes contain no condition but a class label which is assigned to the data point. To classify a data point, a top-down traversal trough the tree is performed. Which child is selected depends on the condition of the actual node and the attribute value of the data point which has to be assigned. 
+Decision Trees is a classification method which is based on trees from the field of graph theory. Every node distinguishes the dataset into different subsets. Leaf nodes contain no condition but a class label which is assigned to the data point. To classify a data point, a top-down traversal through the tree is performed. Which child is selected depends on the condition of the actual node and the attribute value of the data point which has to be assigned. 
 
-The tree has to be created before it can be used to classify new data points, it is an offline approach.
+The tree has to be created before it can be used to classify new data points, it is usually used as an offline approach.
 
 ## Naive Bayes
 
@@ -48,8 +47,8 @@ The algorithm is implemented as online or offline variant.
 
 ## Overview
 The data consists of two data sets, accelerometer and gyroscope data set.
-The first step is to merge this two data set into a new, merged data set and to get rid of outliers and missing values.
-Therefore the accelerometer data entries have to match corresponding gyroscope data entries.
+The first step is to merge the two data sets into a new, merged data set and to get rid of outliers and missing values.
+Therefore, the accelerometer data entries have to match corresponding gyroscope data entries.
 
 First, let's look at the accelerometer and gyroscope data attributes (gt is the label):
 
@@ -59,9 +58,9 @@ gyroscope data attributes:         Index,Arrival_Time,Creation_Time,x,y,z,User,M
 Both data sets contain the same attribute labels.
 The Index,Arrival_Time,Creation_Time doesn't have any relevant information content for the classification algorithm because most of them are unique identifiers. These attributes will be ignored in the merge process of the two data sets.
 To learn a general model that will handle and classify all devices and users, the attributes User,Model and Device will be ignored.
-Thus we have 4 Attributes left in both data sets which needs to be merged: x,y,z,gt
+Thus, we have 4 Attributes left in both data sets which needs to be merged: x,y,z,gt
 
-To be not confused with two x, y and z values the three values from accelerometer will be named aX, aY and aZ and from gyroscope gX, gY and gZ respectively. For reason of understanding the attribute name gt will be named label.
+To be not confused with two x, y and z values, the three values from accelerometer will be named aX, aY and aZ and from gyroscope gX, gY and gZ respectively. For reason of understanding, the attribute name gt will be named label.
 
 The result of the merged data set will be a set of seven attributes: aX,aY,aZ,gX,gY,gZ,label.
 Because of the vast data file, the file is splitted in a further step into ten subsets which also will allow an easier cross-validation, where nine of the subsets will be used to train and one to test the classifier.
@@ -70,7 +69,7 @@ Because of the vast data file, the file is splitted in a further step into ten s
 The Class DataPruner was implemented to prune and merge the two data sets.
 For this purpose we decided to find the two matching entries by the attributes Index and gt (label) of a given entry.
 The main problem is that you cannot load the two data sets into the main memory because they're too big (2.48GB both CSV files combined).
-To solve this problem the DataPruner method dataPruning uses two CSV reader, one for each data set, which goes through all entries row by row.
+To solve this problem, the DataPruner method dataPruning uses two CSV reader, one for each data set, which goes through all entries row by row.
 The Index and gt (label) attribute will be used to find a matching row because the problem, as mentioned before, of other appropriate attributes Arrival_Time,Creation_Time is the distinct assignability. The difference of the time values in accelerometer and gyroscope is about two and often the time values don't match exactly. With the use of the Index value an exact assignment can be done.
 Also the amount of specific labeled data entries differs in the two data sets, and so the last Index values of a set of specific labeled data entries will differ.
 
@@ -152,7 +151,7 @@ all        [ 67152 108579 119172 159501 59720  30935   545059 ]
 mean_accuracy:  0.683425751842
 ```
 
-## Decision Tree learning
+## Decision Tree Learning
 When looking at the classes we thought that there are some subclasses that are easily distinguishable by hand. There are some activities that require a lot of motion (cycling, walking, stairs) and others that don't (standing, sitting). Once you know that the activity is likely to be either standing or sitting you could look for the orientation of the phone to tell apart sitting and standing.
 This is pretty similar to how a decision tree would work like, so we decided to test how well the decision tree learning from sklearn is able to classify our data.
 

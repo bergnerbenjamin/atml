@@ -107,7 +107,7 @@ The Class ClassificatorDataGenerator was implemented to create the data set whic
 To get a random order of labeled data entries in each data subset for cross-validation a random label, which reflects the label file from which the row should the data entry be read in, was chosen according to the label amount proportions and written into one of the ten data subsets for cross-validation, also randomly chosen.
 Each subset for cross-validation should now reflect the label amount proportion of the original data sets and every subset for cross-validation should have approximately the same amount of data entries.
 
-# 6 Evaluation (Quality Measures)
+# Quality Measures
 
 The overall task is a classification problem with six distinct classes. To compare our algorithms we use some quality measures which will be described in this chapter.
 
@@ -136,12 +136,23 @@ A problem that came up is that (at least in this implementation) training the SV
 Using a small number of training samples also means, that 'good' training samples have to be chosen, as biased data can have a large impact on the result. This happend to us and led to accuracy values of 0.9 in training and 0.8 in evaluation sets with the same data distribution, but had an overall accuracy of under 0.3 on randomly selected evaluation data.
 
 Another advantage is that SVMs can not be trained online, but the model needs to be learned in advance.
+```
+bike       [ 38975  2013    5325    12809   3748   1656    64526  
+sit        [ 310    103757  70         43      60       13    104253  
+stand      [ 979    344     101185    432     307     168    103415  
+walk       [ 11981  1344    5483    82608   12780  6374    120570  
+stairsup   [ 7786   610     3874    30364   30097  6939    79670  
+stairsdown [ 7121   511     3235    33245   12728  15785   72625  
+all        [ 67152  108579  119172  159501  59720  30935   545059  
+
+mean_accuracy:  0.683425751842
+```
 
 ## Decision Tree learning
 When looking at the classes we thought that there are some subclasses that are easily distinguishable by hand. There are some activities that require a lot of motion (cycling, walking, stairs) and others that don't (standing, sitting). Once you know that the activity is likely to be either standing or sitting you could look for the orientation of the phone to tell apart sitting and standing.
 This is pretty similar to how a decision tree would work like, so we decided to test how well the decision tree learning from sklearn is able to classify our data.
 
-However the model learned by the decision tree may not be a good generalisation of the underling association of the attributes. Especially the 'perfect' decision tree that has no error on the training data performs poorly when classifying real data. By generating a tree that aggregates a number of training examples in each node befor splitting it and limiting the minimal number of samples in the leaf nodes overfitting can be counteracted and the accuracy is quite good.
+However the model learned by the decision tree may not be a good generalisation of the underlying association of the attributes. Especially the 'perfect' decision tree that has no error on the training data performs poorly when classifying real data. By generating a tree that aggregates a number of training examples in each node befor splitting it and limiting the minimal number of samples in the leaf nodes overfitting can be counteracted and the accuracy is quite good.
 
 In the implementation of decision trees we use, the model is fitted in advance of classification. However there are also online learning approaches for decision trees. One of those approaches is to save the data items in the leaf node of the tree and to split the nodes as soon as a certain threshold is reached. In contrast to offline learning with this approach it is even harder to find the optimal feature split, as less data items are available to decide on how to split the node.
 
@@ -156,14 +167,14 @@ is to think that the data is normal distributed. The result for online naive bay
 
 Below the summarized confusion matrix for the 10 fold crossvalidation is depicted
 ```
-               bike     sit    stand   walk stairsup stairsdown all
+               bike     sit    stand   walk  s-up    s-down     all
 bike       [ 174117   55085  128905  210417   51632   22203  642359]
 sit        [  25166  692781  283821     210    5132   38331 1045441]
 stand      [  24505   74559  896433   24017    5969    3210 1028693]
 walk       [  70019  191574  237291  514705  121561   73864 1209014]
 stairsup   [  41800   64164  150102  313976  165688   58465  794195]
 stairsdown [  50803   77630  115822  275309  101505  103073  724142]
-           [ 386410 1155793 1812374 1338634  451487  299146 5443844]
+all        [ 386410 1155793 1812374 1338634  451487  299146 5443844]
 ```
 When biking, naive bayes thinks mostly that you walk. Sitting and standing is recognized quite well but there is still some confusion between these two classes. When one goes up or
 down the stairs, mostly walking will be recognized again.
@@ -177,8 +188,21 @@ Looking at k-Nearest-Neighbours, the accuracy improves but it seems not worth to
 Most probably, the accuracy increased because of clusters that build. Sitting and standing is well seperated and classified correctly most of the times. The nice seperation is working because they are very different from all other classes as sitting will not change the sensor data (nearly constant) while standing will cause slight movements + jitter. Because walking and biking have more similar vectors they have a lot of false positives/negatives. More drastic is that stairsup and down seem to be very similar to their counterpart and especially walking. Giving this general setting, kNN should only be considered differentiating less similar classes like e.g. sit + stand + walk|bike
 
 
-# 8 Future Work
+               bike     sit    stand   walk    s-up   s-down    all
+bike       [ 443651    6098   21499  102999   37575   30536  642358]
+sit        [   1378 1040850     792    1547     619     253 1045439]
+stand      [   9045    1053 1007032    6758    2692    2112 1028692]
+walk       [ 156727    6524   27178  754470  139315  124798 1209012]
+stairsup   [ 104552    3895   19061  268989  298120   99577  794194]
+stairsdown [  99558    2606   16898  271332  119209  214536  724139]
+all        [ 814911 1061026 1092460 1406095  597530  471812 5443834]
 
-The first aspect of the future work woulde be the improving of the implemented algorithms. Parameter tuning would be one of this tasks. With SVMs we achieve quite good results, but there is still room for improvement. Due to the limited time we could not test the data with enough different paramerters. Maybe Evolutionary Algorithms help to find the optimum of the available parameters.
+# Comparison
 
-The second task is based on the preprocessing of the available data. The instances of the data are values which were computed by the accelerator and gyroskope in a very small time intervall. It is very unlikely that the class changes during 100 or 1000 consecutive instances. Approaches which combine a number of consecutive instances would maybe lead to better results.
+Comparing SVM and kNN is also interesting, as the RBF kernel works distance based and is able to recognize clusters. This may explain why SVM and kNN achieve similar results and also why the rbf-kernel seems appropriate to classify the data.
+
+# Future Work
+
+One aspect of the future work would be the improvment of the implemented algorithms. Parameter tuning would be one of those tasks. With SVMs we achieve quite good results, but there is still room for improvement. Due to the limited time we could not test the data with enough different parameters.
+
+Another approach is to use the temporal component. The inertial measurement unit of the telephone gathers a new data item serveral times each second, the activities will not change fast, so accuracy might be improved by combining multiple measurements taken in a short time period. A really simple way of doing this would be to take the majority vote of occuring classifications for the last n measurements.

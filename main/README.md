@@ -47,37 +47,37 @@ The algorithm is implemented as online or offline variant.
 # Data cleaning
 
 ## Overview
-The data consists of two data sets, **accelerometer** and **gyroscope** data set.
+The data consists of two data sets, accelerometer and gyroscope data set.
 The first step is to merge this two data set into a new, merged data set and to get rid of outliers and missing values.
 Therefore the accelerometer data entries have to match corresponding gyroscope data entries.
 
 First, let's look at the accelerometer and gyroscope data attributes (gt is the label):
 
-**accelerometer data attributes**:     Index,Arrival_Time,Creation_Time,x,y,z,User,Model,Device,gt
-**gyroscope data attributes**:         Index,Arrival_Time,Creation_Time,x,y,z,User,Model,Device,gt
+accelerometer data attributes:     Index,Arrival_Time,Creation_Time,x,y,z,User,Model,Device,gt
+gyroscope data attributes:         Index,Arrival_Time,Creation_Time,x,y,z,User,Model,Device,gt
 
 Both data sets contain the same attribute labels.
-The **Index,Arrival_Time,Creation_Time** doesn't have any relevant information content for the classification algorithm because most of them are unique identifiers. These attributes will be ignored in the merge process of the two data sets.
-To learn a general model that will handle and classify all devices and users, the attributes **User,Model and Device** will be ignored.
-Thus we have 4 Attributes left in both data sets which needs to be merged: **x,y,z,gt**
+The Index,Arrival_Time,Creation_Time doesn't have any relevant information content for the classification algorithm because most of them are unique identifiers. These attributes will be ignored in the merge process of the two data sets.
+To learn a general model that will handle and classify all devices and users, the attributes User,Model and Device will be ignored.
+Thus we have 4 Attributes left in both data sets which needs to be merged: x,y,z,gt
 
-To be not confused with two x, y and z values the three values from accelerometer will be named **aX, aY and aZ** and from gyroscope **gX, gY and gZ** respectively. For reason of understanding the attribute name **gt** will be named **label**.
+To be not confused with two x, y and z values the three values from accelerometer will be named aX, aY and aZ and from gyroscope gX, gY and gZ respectively. For reason of understanding the attribute name gt will be named label.
 
-The result of the merged data set will be a set of seven attributes: **aX,aY,aZ,gX,gY,gZ,label**.
+The result of the merged data set will be a set of seven attributes: aX,aY,aZ,gX,gY,gZ,label.
 Because of the vast data file, the file is splitted in a further step into ten subsets which also will allow an easier cross-validation, where nine of the subsets will be used to train and one to test the classifier.
 
 ## Data pruner
-The Class **DataPruner** was implemented to prune and merge the two data sets.
-For this purpose we decided to find the two matching entries by the attributes **Index** and **gt (label)** of a given entry.
+The Class DataPruner was implemented to prune and merge the two data sets.
+For this purpose we decided to find the two matching entries by the attributes Index and gt (label) of a given entry.
 The main problem is that you cannot load the two data sets into the main memory because they're too big (2.48GB both CSV files combined).
-To solve this problem the **DataPruner** method **dataPruning** uses two CSV reader, one for each data set, which goes through all entries row by row.
-The **Index** and **gt (label)** attribute will be used to find a matching row because the problem, as mentioned before, of other appropriate attributes **Arrival_Time,Creation_Time** is the distinct assignability. The difference of the time values in **accelerometer** and **gyroscope** is about two and often the time values don't match exactly. With the use of the **Index** value an exact assignment can be done.
-Also the amount of specific labeled data entries differs in the two data sets, and so the last **Index** values of a set of specific labeled data entries will differ.
+To solve this problem the DataPruner method dataPruning uses two CSV reader, one for each data set, which goes through all entries row by row.
+The Index and gt (label) attribute will be used to find a matching row because the problem, as mentioned before, of other appropriate attributes Arrival_Time,Creation_Time is the distinct assignability. The difference of the time values in accelerometer and gyroscope is about two and often the time values don't match exactly. With the use of the Index value an exact assignment can be done.
+Also the amount of specific labeled data entries differs in the two data sets, and so the last Index values of a set of specific labeled data entries will differ.
 
 The implemented strategy is:
-Go through all data entries (rows) in both data sets, **accelerometer** and **gyroscope**.
+Go through all data entries (rows) in both data sets, accelerometer and gyroscope.
 
-**Do** while rows exist:
+Do while rows exist:
     1. Find the next matching Index entries:
         a. Load next parsable and valid rows accelerometer and gyroscope.
            (Valid means all entries x,y,z as float and gt as string can be parsed)
@@ -90,7 +90,7 @@ Go through all data entries (rows) in both data sets, **accelerometer** and **gy
         a. Read in the x,y,z values of the accelerometer as aX,aY,aZ and x,y,z values of gyroscope as gX,gY,gZ and write it with the corresponding label (gt) into the merged data set.
         b. Go to 1.
 
-Data entries with label (gt) **null** will be ignored.
+Data entries with label (gt) null will be ignored.
 
 # Convert data into a format useable for machine learning algorithms
 
@@ -98,13 +98,13 @@ Data entries with label (gt) **null** will be ignored.
 Through the fact that the merged and pruned data set was still too vast to handle, it was splitted into ten subsets. The subsets should reflect the same proportion of data entries with the same label, we first split the data set by label (Pruned data separator) and merge them randomly with respect to the label proportions (Classificator data generator).
 
 ## Pruned data separator
-The Class **PrunedDataSeparator** was implemented to split the merged data set into ten subsets.
-For each label item one file was created (**label file**) and then the merged data set was parsed row by row.
+The Class PrunedDataSeparator was implemented to split the merged data set into ten subsets.
+For each label item one file was created (label file) and then the merged data set was parsed row by row.
 For each row the label was determined and copied into the according label file.
 
 ## Classificator data generator
-The Class **ClassificatorDataGenerator** was implemented to create the data set which will be used to train and test the learning algorithm. In the section before the pruned and merged data set was split into ten **label files** in which each file contains exclusively entries with the same label.
-To get a random order of labeled data entries in each data subset for cross-validation a random label, which reflects the **label file** from which the row should the data entry be read in, was chosen according to the label amount proportions and written into one of the ten data subsets for cross-validation, also randomly chosen.
+The Class ClassificatorDataGenerator was implemented to create the data set which will be used to train and test the learning algorithm. In the section before the pruned and merged data set was split into ten label files in which each file contains exclusively entries with the same label.
+To get a random order of labeled data entries in each data subset for cross-validation a random label, which reflects the label file from which the row should the data entry be read in, was chosen according to the label amount proportions and written into one of the ten data subsets for cross-validation, also randomly chosen.
 Each subset for cross-validation should now reflect the label amount proportion of the original data sets and every subset for cross-validation should have approximately the same amount of data entries.
 
 # 6 Evaluation (Quality Measures)
@@ -155,7 +155,7 @@ When sitting e.g., the accelerometer won't change it's values ignoring jitter. T
 is to think that the data is normal distributed. The result for online naive bayes is equal because it does not make a difference when and in which order to read in data.
 
 Below the summarized confusion matrix for the 10 fold crossvalidation is depicted
-
+```
                bike     sit    stand   walk stairsup stairsdown all
 bike       [ 174117   55085  128905  210417   51632   22203  642359]
 sit        [  25166  692781  283821     210    5132   38331 1045441]
@@ -164,7 +164,7 @@ walk       [  70019  191574  237291  514705  121561   73864 1209014]
 stairsup   [  41800   64164  150102  313976  165688   58465  794195]
 stairsdown [  50803   77630  115822  275309  101505  103073  724142]
            [ 386410 1155793 1812374 1338634  451487  299146 5443844]
-
+```
 When biking, naive bayes thinks mostly that you walk. Sitting and standing is recognized quite well but there is still some confusion between these two classes. When one goes up or
 down the stairs, mostly walking will be recognized again.
 

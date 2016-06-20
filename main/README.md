@@ -16,7 +16,7 @@ side information
 * the user field because the classification should work for all users, irrespective of how the individual user runs, walks, sits,...
 * we did not use the information about the smartphone because we want to achieve a high generalization for all
 
-# 3 Approach
+# Approach
 
 Our approach is based on several different algorithms. We were very unfamiliar with the proposed data, to achieve good results anyway we decide to implement four algorithms instead of two. A short description of them is given in the following. Also their abilities to be used as on online or offline variant are mentioned.
 
@@ -107,15 +107,18 @@ The Class ClassificatorDataGenerator was implemented to create the data set whic
 To get a random order of labeled data entries in each data subset for cross-validation a random label, which reflects the label file from which the row should the data entry be read in, was chosen according to the label amount proportions and written into one of the ten data subsets for cross-validation, also randomly chosen.
 Each subset for cross-validation should now reflect the label amount proportion of the original data sets and every subset for cross-validation should have approximately the same amount of data entries.
 
-# Quality Measures
+
+# Evaluation 
+
+## Quality Measures
 
 The overall task is a classification problem with six distinct classes. To compare our algorithms we use some quality measures which will be described in this chapter.
 
-## Accuracy
+### Accuracy
 
 The accuracy is a common quality measure for classification problems. It is the number of right classified instances divided by the overall number of instances. This was our main quality measure for the comparison.
 
-## Confusion Matrix
+### Confusion Matrix
 
 The confusion matrix is used to get a better overview over a single classification result. For N considered classes, the confusion matrix is an NxN matrix. The rows depict the ground truth, the columns the estimated class. Every cell of the matrix „counts“ classifications. For example a 100 in the cell (A,B) means that instances with the real class A, in 100 cases are assigned to the class B by the considered classifier. 
 The desired result is a matrix in which everything is zero except the values in the main diagonal. This means that all estimated classes are equal to the ground truth, for every instance. 

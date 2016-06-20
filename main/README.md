@@ -198,8 +198,8 @@ down the stairs, mostly walking will be recognized again.
 ## K-Nearest-Neighbours
 Looking at k-Nearest-Neighbours, the accuracy improves but it seems not worth to go beyond three neigbours as the accuracy won't improve significantly:
 
-3-NN mean_accuracy:  0.690442637993
-5-NN mean_accuracy:  0.699013810978
+* 3-NN mean_accuracy:  0.690442637993
+* 5-NN mean_accuracy:  0.699013810978
 
 Most probably, the accuracy increased because of clusters that build. Sitting and standing is well separated and classified correctly most of the times. The nice separation is working because they are very different from all other classes as sitting will not change the sensor data (nearly constant) while standing will cause slight movements + jitter. Because walking and biking have more similar vectors they have a lot of false positives/negatives. More drastic is that stairsup and down seem to be very similar to their counterpart and especially walking. Giving this general setting, kNN should only be considered differentiating less similar classes like e.g. sit + stand + walk|bike
 
